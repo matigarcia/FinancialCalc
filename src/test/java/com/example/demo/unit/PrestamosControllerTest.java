@@ -43,4 +43,21 @@ class PrestamosControllerTest {
                 .andExpect(jsonPath("$.cuotas", Matchers.hasSize(sizeList)))
                 .andExpect(jsonPath("$.cuotas", Matchers.hasItem(montoCuota)));
     }
+
+    @Test
+    void simularAmericano() throws Exception {
+        Double montoFinal = 51760.00;
+        Integer sizeList = 24;
+        Double montoCuota = 1740.00;
+        List<Double> cuotas = Arrays.asList(1740.00, 1740.00, 1740.00, 1740.00, 1740.00, 1740.00, 1740.00, 1740.00, 1740.00, 1740.00, 1740.00, 1740.00, 1740.00, 1740.00, 1740.00, 1740.00, 1740.00, 1740.00, 1740.00, 1740.00, 1740.00, 1740.00, 1740.00, 1740.00);
+        DetallePrestamo detallePrestamo = new DetallePrestamo(montoFinal, cuotas);
+
+        when(simuladorPrestamoService.simularPrestamo(10000, 24, 2)).thenReturn(detallePrestamo);
+
+        mockMvc.perform(get("/prestamos/simular?monto=10000&meses=24&sistema=2"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.montoFinal", Matchers.is(montoFinal)))
+                .andExpect(jsonPath("$.cuotas", Matchers.hasSize(sizeList)))
+                .andExpect(jsonPath("$.cuotas", Matchers.hasItem(montoCuota)));
+    }
 }
