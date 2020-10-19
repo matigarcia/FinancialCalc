@@ -42,6 +42,10 @@ public class CalculadoraFinanciera {
         double monthlyPayment = monto * (tasa / 100); // cuota de la 1 a la n-1;
         double lastPayment = monto + monthlyPayment; // cuota n
 
+        DecimalFormat df = new DecimalFormat("#.##");
+        monthlyPayment = Double.parseDouble(df.format(monthlyPayment));
+        lastPayment = Double.parseDouble(df.format(lastPayment));
+
         for (int i = 1; i < meses; i++) {
             cuotas.add(monthlyPayment);
         }
